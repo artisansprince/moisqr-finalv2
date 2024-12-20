@@ -62,8 +62,8 @@ exports.createObject = async (req, res) => {
             return res.status(400).json({ error: err.message });
         }
         try {
-            const { name, description, location, category_id } = req.body;
-            if (!name || !description || !location || !category_id) {
+            const { name, location, category_id, description_english, description_indonesian, description_chinese_simp, description_japanese, description_korean, description_russian, description_spanish, description_dutch } = req.body;
+            if (!name || !description_english || !location || !category_id) {
                 return res.status(400).json({ error: 'Missing required fields' });
             }
 
@@ -71,13 +71,60 @@ exports.createObject = async (req, res) => {
             const image_urls = req.files ? req.files.map(file => '/uploads/' + file.filename) : [];
 
             // Simpan object baru ke database
-            const id = await objectModel.create(name, description, JSON.stringify(image_urls), location, category_id);
+            const id = await objectModel.create(name, JSON.stringify(image_urls), location, category_id, description_english, description_indonesian, description_chinese_simp, description_japanese, description_korean, description_russian, description_spanish, description_dutch);
             res.status(201).json({ message: 'Object created', id });
         } catch (error) {
             res.status(500).json({ error: 'Failed to create object' });
         }
     });
 };
+
+
+// // Create Object
+// exports.createObject = async (req, res) => {
+//     upload(req, res, async (err) => {
+//         if (err) {
+//             return res.status(400).json({ error: err.message });
+//         }
+//         try {
+//             const { name, location, category_id, 
+//                 description_english, location_english, name_english,
+//                 description_indonesian, location_indonesian, name_indonesian,
+//                 description_chinese_simp, location_chinese_simp, name_chinese_simp,
+//                 description_japanese, location_japanese, name_japanese,
+//                 description_korean, location_korean, name_korean,
+//                 description_russian, location_russian, name_russian, 
+//                 description_spanish, location_spanish, name_spanish,
+//                 description_dutch, location_dutch, name_dutch
+//             } = req.body;
+//             if (!name || !description_english || !location || !category_id) {
+//                 return res.status(400).json({ error: 'Missing required fields' });
+//             }
+
+//             // Simpan gambar dan buat array URL
+//             const image_urls = req.files ? req.files.map(file => '/uploads/' + file.filename) : [];
+
+//             // Simpan object baru ke database
+//             const id = await objectModel.create(
+//                 name, JSON.stringify(image_urls), location, category_id, 
+//                 description_english, location_english, name_english,
+//                 description_indonesian, location_indonesian, name_indonesian,
+//                 description_chinese_simp, location_chinese_simp, name_chinese_simp,
+//                 description_japanese, location_japanese, name_japanese,
+//                 description_korean, location_korean, name_korean,
+//                 description_russian, location_russian, name_russian, 
+//                 description_spanish, location_spanish, name_spanish,
+//                 description_dutch, location_dutch, name_dutch
+//             );
+//             res.status(201).json({ message: 'Object created', id });
+//         } catch (error) {
+//             res.status(500).json({ error: 'Failed to create object' });
+//         }
+//     });
+// };
+
+
+
 
 // Generate QR Code
 exports.generateQRCode = async (req, res) => {

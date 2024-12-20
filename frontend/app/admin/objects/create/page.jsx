@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import Sidebar from "../../components/sidebar";
@@ -9,13 +9,29 @@ const CreateObjectPage = () => {
     name: '',
     location: '',
     category_id: '',
-    description: '',
+    description_english: '',
+    description_indonesian: '',
+    description_chinese_simp: '',
+    description_japanese: '',
+    description_russian: '',
+    description_spanish: '',
+    description_dutch: '',
     images: [],
   });
+  
   const [categories, setCategories] = useState([]);
   const baseURL = 'http://localhost:9977';
-  const descriptionRef = useRef(null);
-  const router = useRouter();  // Inisialisasi router
+  const descriptionRefs = {
+    english: useRef(null),
+    indonesian: useRef(null),
+    chinese_simp: useRef(null),
+    japanese: useRef(null),
+    russian: useRef(null),
+    spanish: useRef(null),
+    dutch: useRef(null),
+  };
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -48,64 +64,93 @@ const CreateObjectPage = () => {
     });
   };
 
-  const handleTextAreaChange = () => {
-    if (descriptionRef.current) {
+  const handleTextAreaChange = (lang) => {
+    if (descriptionRefs[lang].current) {
       setFormData({
         ...formData,
-        description: descriptionRef.current.innerHTML,  // Update description with innerHTML
+        [`description_${lang}`]: descriptionRefs[lang].current.innerHTML,
       });
     }
   };
 
-  const handleBold = () => {
+  const handleBold = (lang) => {
     document.execCommand('bold');
-    handleTextAreaChange();
+    handleTextAreaChange(lang);
   };
 
-  const handleItalic = () => {
+  const handleItalic = (lang) => {
     document.execCommand('italic');
-    handleTextAreaChange();
+    handleTextAreaChange(lang);
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validasi form
+  
+    // Validasi form sebelum mengirim
     if (!formData.name || !formData.location || !formData.category_id) {
       alert('Please fill all required fields');
       return;
     }
-
+  
+    // Membuat FormData untuk pengiriman data
     const form = new FormData();
+    form.append('category_id', formData.category_id);
+  
+    // Menambahkan data teks untuk setiap bahasa
     form.append('name', formData.name);
     form.append('location', formData.location);
-    form.append('category_id', formData.category_id);
-    form.append('description', formData.description);
-
-    // Tambahkan gambar ke FormData
+  
+    form.append('description_english', formData.description_english || '');
+    form.append('description_indonesian', formData.description_indonesian || '');
+    form.append('description_chinese_simp', formData.description_chinese_simp || '');
+    form.append('description_japanese', formData.description_japanese || '');
+    form.append('description_russian', formData.description_russian || '');
+    form.append('description_spanish', formData.description_spanish || '');
+    form.append('description_dutch', formData.description_dutch || '');
+  
+    // Menambahkan gambar ke FormData (mengonversi array gambar ke JSON)
+    const imageUrls = formData.images.map((image) => image.name); // Ambil nama file gambar
+    form.append('image_url', JSON.stringify(imageUrls));  // Mengirimkan JSON gambar
+  
+    // Menambahkan gambar ke FormData jika ada
     formData.images.forEach((image) => {
       if (image) {
         form.append('images', image);
       }
     });
-
+  
+    // Log formData untuk memeriksa nilai sebelum dikirim
+    console.log('Form data:', formData);
+  
     try {
+      // Mengirimkan data ke backend
       await axios.post(`${baseURL}/api/objects/create`, form, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-
+  
       alert('Object created successfully');
-      setFormData({ name: '', location: '', category_id: '', description: '', images: [] });
-
-      // Redirect ke halaman list objek
-      router.push('/admin/objects');
+      setFormData({
+        name: '',
+        location: '',
+        category_id: '',
+        description_english: '',
+        description_indonesian: '',
+        description_chinese_simp: '',
+        description_japanese: '',
+        description_russian: '',
+        description_spanish: '',
+        description_dutch: '',
+        images: [],
+      });
+  
+      router.push('/admin/objects'); // Mengarahkan kembali ke halaman objek setelah berhasil
     } catch (error) {
       console.error('Error creating object:', error);
       alert('Error occurred while saving data');
     }
   };
+  
 
   return (
     <div className="flex">
@@ -162,7 +207,7 @@ const CreateObjectPage = () => {
             </select>
           </div>
 
-          {/* Input Nama */}
+          {/* Input untuk nama dan lokasi */}
           <div className="mb-4">
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">
               Name
@@ -178,7 +223,6 @@ const CreateObjectPage = () => {
             />
           </div>
 
-          {/* Input Lokasi */}
           <div className="mb-4">
             <label htmlFor="location" className="block text-sm font-medium text-gray-700">
               Location
@@ -194,33 +238,48 @@ const CreateObjectPage = () => {
             />
           </div>
 
-          {/* Input Deskripsi */}
-          <div className="mb-4">
-            <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-              Description
-            </label>
-            <div className="mb-2">
-              <button type="button" onClick={handleBold} className="bg-gray-200 p-2 rounded mx-1">
-                B
-              </button>
-              <button type="button" onClick={handleItalic} className="bg-gray-200 p-2 rounded mx-1">
-                I
-              </button>
-            </div>
-            <div
-              contentEditable
-              ref={descriptionRef}
-              className="mt-2 p-2 w-full border rounded min-h-[150px]"
-              onInput={handleTextAreaChange}
-            />
-          </div>
+          {/* Deskripsi untuk setiap bahasa */}
+          {['english', 'indonesian', 'chinese_simp', 'japanese', 'russian', 'spanish', 'dutch'].map((lang) => (
+            <div key={lang}>
+              <h3 className="text-lg font-medium text-gray-700 mt-4">{lang.charAt(0).toUpperCase() + lang.slice(1)}</h3>
 
-          {/* Tombol Submit */}
-          <div className="form-control">
-            <button type="submit" className="btn btn-primary">
-              Create Object
-            </button>
-          </div>
+              {/* Description */}
+              <div className="mb-4">
+                <label htmlFor={`description_${lang}`} className="block text-sm font-medium text-gray-700">
+                  Description
+                </label>
+                <div className="mb-2">
+                  <button
+                    type="button"
+                    onClick={() => handleBold(lang)}
+                    className="bg-gray-200 p-2 rounded mx-1"
+                  >
+                    B
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleItalic(lang)}
+                    className="bg-gray-200 p-2 rounded mx-1"
+                  >
+                    I
+                  </button>
+                </div>
+                <div
+                  ref={descriptionRefs[lang]}
+                  contentEditable
+                  onInput={() => handleTextAreaChange(lang)}
+                  className="mt-2 p-2 w-full border rounded min-h-[100px]"
+                />
+              </div>
+            </div>
+          ))}
+
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Submit
+          </button>
         </form>
       </div>
     </div>
@@ -240,15 +299,11 @@ export default CreateObjectPage;
 
 
 
-
-
-
 // 'use client'
 // import { useState, useRef, useEffect } from 'react';
 // import axios from 'axios';
-// import { useRouter } from 'next/router';
 // import Sidebar from "../../components/sidebar";
-
+// import { useRouter } from 'next/navigation';
 
 // const CreateObjectPage = () => {
 //   const [formData, setFormData] = useState({
@@ -261,7 +316,7 @@ export default CreateObjectPage;
 //   const [categories, setCategories] = useState([]);
 //   const baseURL = 'http://localhost:9977';
 //   const descriptionRef = useRef(null);
-//   const router = useRouter(); // Inisialisasi router
+//   const router = useRouter();  // Inisialisasi router
 
 //   useEffect(() => {
 //     const fetchCategories = async () => {
@@ -346,7 +401,7 @@ export default CreateObjectPage;
 //       setFormData({ name: '', location: '', category_id: '', description: '', images: [] });
 
 //       // Redirect ke halaman list objek
-//       router.push('/objects/');
+//       router.push('/admin/objects');
 //     } catch (error) {
 //       console.error('Error creating object:', error);
 //       alert('Error occurred while saving data');
@@ -474,3 +529,4 @@ export default CreateObjectPage;
 // };
 
 // export default CreateObjectPage;
+
