@@ -50,9 +50,6 @@ export default function DetailObjectPage() {
     <div className="flex">
       <Sidebar />
       <div className="container mx-auto p-5">
-        <h1 className="text-3xl font-bold mb-4">{object.name}</h1>
-        <p className="text-gray-700 mb-2">Kategori: {object.category_name}</p>
-        <p className="text-gray-500 mb-4">{object.location}</p>
 
         {/* Render gambar-gambar dari imageUrls */}
         {imageUrls.length > 0 ? (
@@ -69,8 +66,63 @@ export default function DetailObjectPage() {
         ) : (
           <p className="text-gray-500">No images available.</p>
         )}
+        <p className="text-gray-700 mb-2">Kategori: {object.category_name}</p>
 
-        <p className="text-gray-700" dangerouslySetInnerHTML={{ __html: object.description }} />
+        <hr />
+        <h1 className="text-3xl font-bold mb-4">Language: English</h1>
+        <h3 className="text-xl font-bold mb-4">Name: {object.name_english}</h3>
+        <p className="text-gray-500 mb-4">{object.location_english}</p>
+        <p className="text-gray-700 mb-4" dangerouslySetInnerHTML={{ __html: object.description_english }} />
+
+        <hr />
+        <h1 className="text-3xl font-bold mb-4">Language: Chinese (Simplified)</h1>
+        <h3 className="text-xl font-bold mb-4">Name: {object.name_chinese_simp}</h3>
+        <p className="text-gray-500 mb-4">{object.location_chinese_simp}</p>
+        <p className="text-gray-700 mb-4" dangerouslySetInnerHTML={{ __html: object.description_chinese_simp }} />
+
+        <hr />
+        <h1 className="text-3xl font-bold mb-4">Language: Dutch</h1>
+        <h3 className="text-xl font-bold mb-4">Name: {object.name_dutch}</h3>
+        <p className="text-gray-500 mb-4">{object.location_dutch}</p>
+        <p className="text-gray-700 mb-4" dangerouslySetInnerHTML={{ __html: object.description_dutch }} />
+
+        <hr />
+        <h1 className="text-3xl font-bold mb-4">Language: Indonesian</h1>
+        <h3 className="text-xl font-bold mb-4">Name: {object.name_indonesian}</h3>
+        <p className="text-gray-500 mb-4">{object.location_indonesian}</p>
+        <p className="text-gray-700 mb-4" dangerouslySetInnerHTML={{ __html: object.description_indonesian }} />
+
+        <hr />
+        <h1 className="text-3xl font-bold mb-4">Language: Japanese</h1>
+        <h3 className="text-xl font-bold mb-4">Name: {object.name_japanese}</h3>
+        <p className="text-gray-500 mb-4">{object.location_japanese}</p>
+        <p className="text-gray-700 mb-4" dangerouslySetInnerHTML={{ __html: object.description_japanese }} />
+
+        <hr />
+        <h1 className="text-3xl font-bold mb-4">Language: Korean</h1>
+        <h3 className="text-xl font-bold mb-4">Name: {object.name_korean}</h3>
+        <p className="text-gray-500 mb-4">{object.location_korean}</p>
+        <p className="text-gray-700 mb-4" dangerouslySetInnerHTML={{ __html: object.description_korean }} />
+
+        <hr />
+        <h1 className="text-3xl font-bold mb-4">Language: Russian</h1>
+        <h3 className="text-xl font-bold mb-4">Name: {object.name_russian}</h3>
+        <p className="text-gray-500 mb-4">{object.location_russian}</p>
+        <p className="text-gray-700 mb-4" dangerouslySetInnerHTML={{ __html: object.description_russian }} />
+
+        <hr />
+        <h1 className="text-3xl font-bold mb-4">Language: Spanish</h1>
+        <h3 className="text-xl font-bold mb-4">Name: {object.name_spanish}</h3>
+        <p className="text-gray-500 mb-4">{object.location_spanish}</p>
+        <p className="text-gray-700 mb-4" dangerouslySetInnerHTML={{ __html: object.description_spanish }} />
+
+        <hr />
+        <h1 className="text-3xl font-bold mb-4">Language: Dutch</h1>
+        <h3 className="text-xl font-bold mb-4">Name: {object.name_dutch}</h3>
+        <p className="text-gray-500 mb-4">{object.location_dutch}</p>
+        <p className="text-gray-700 mb-4" dangerouslySetInnerHTML={{ __html: object.description_dutch }} />
+        <hr />
+
         
         <div className="mt-5">
           <h2 className="text-2xl font-semibold mb-2">QR Code</h2>
