@@ -1,3 +1,5 @@
+// frontend/app/admin/objects/create/page.jsx
+
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';

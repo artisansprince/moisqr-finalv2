@@ -137,6 +137,71 @@ exports.createObject = async (req, res) => {
 
 
 
+// Update Object
+exports.updateObject = async (req, res) => {
+    upload(req, res, async (err) => {
+        if (err) {
+            return res.status(400).json({ error: err.message });
+        }
+        try {
+            const { id } = req.params;
+            const { 
+                category_id, 
+                description_english, location_english, name_english,
+                description_indonesian, location_indonesian, name_indonesian,
+                description_chinese_simp, location_chinese_simp, name_chinese_simp,
+                description_japanese, location_japanese, name_japanese,
+                description_korean, location_korean, name_korean,
+                description_russian, location_russian, name_russian, 
+                description_spanish, location_spanish, name_spanish,
+                description_dutch, location_dutch, name_dutch
+            } = req.body;
+
+            const existingObject = await objectModel.findById(id);
+            if (!existingObject) {
+                return res.status(404).json({ error: 'Object not found' });
+            }
+
+            // Simpan gambar dan buat array URL, menggunakan gambar lama jika tidak ada gambar baru
+            const image_urls = req.files && req.files.length
+                ? req.files.map(file => '/uploads/' + file.filename)
+                : JSON.parse(existingObject.image_url); // Menggunakan gambar lama jika tidak ada gambar baru
+
+            // Update object di database
+            await objectModel.update(
+                id,
+                JSON.stringify(image_urls), category_id, 
+                description_english, location_english, name_english,
+                description_indonesian, location_indonesian, name_indonesian,
+                description_chinese_simp, location_chinese_simp, name_chinese_simp,
+                description_japanese, location_japanese, name_japanese,
+                description_korean, location_korean, name_korean,
+                description_russian, location_russian, name_russian, 
+                description_spanish, location_spanish, name_spanish,
+                description_dutch, location_dutch, name_dutch
+            );
+
+            res.status(200).json({ message: 'Object updated' });
+        } catch (error) {
+            // Cek jika error berasal dari database
+            if (error.sqlMessage) {
+                console.error('Database Error:', error.sqlMessage); // Log ke server untuk debugging
+                return res.status(500).json({ 
+                    error: 'Database error', 
+                    details: error.sqlMessage 
+                });
+            }
+
+            // Error lain yang tidak diketahui
+            console.error('Unexpected Error:', error.message); // Log error tidak terduga
+            res.status(500).json({ error: 'Failed to update object', details: error.message });
+        }
+    });
+};
+
+
+
+
 
 // Generate QR Code
 exports.generateQRCode = async (req, res) => {
@@ -183,33 +248,7 @@ exports.getObjectById = async (req, res) => {
     }
 };
 
-// Update Object
-exports.updateObject = async (req, res) => {
-    upload(req, res, async (err) => {
-        if (err) {
-            return res.status(400).json({ error: err.message });
-        }
-        try {
-            const { id } = req.params;
-            const { name, description, location, category_id } = req.body;
-            const existingObject = await objectModel.findById(id);
-            if (!existingObject) {
-                return res.status(404).json({ error: 'Object not found' });
-            }
 
-            // Simpan gambar dan buat array URL, menggunakan gambar lama jika tidak ada gambar baru
-            const image_urls = req.files && req.files.length
-                ? req.files.map(file => '/uploads/' + file.filename)
-                : JSON.parse(existingObject.image_url);
-
-            // Update object di database
-            await objectModel.update(id, name, description, JSON.stringify(image_urls), location, category_id);
-            res.status(200).json({ message: 'Object updated' });
-        } catch (error) {
-            res.status(500).json({ error: 'Failed to update object' });
-        }
-    });
-};
 
 // Delete Object
 exports.deleteObject = async (req, res) => {
