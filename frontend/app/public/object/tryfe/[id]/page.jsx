@@ -123,12 +123,12 @@ export default function DetailObjectPageTry() {
 
       pdf.html(element, {
         callback: (doc) => {
-          doc.save(object.name);
+          doc.save(getTranslatedField('name'));
         },
         x: 20, // Margin kiri
         y: 20, // Margin atas
         html2canvas: {
-          scale: 0.9 / window.devicePixelRatio, // Sesuaikan dengan rasio pixel
+          scale: 2 / window.devicePixelRatio, // Sesuaikan dengan rasio pixel
           useCORS: true,
         },
       });
@@ -165,7 +165,7 @@ export default function DetailObjectPageTry() {
       </div>
     </div>
 
-    <div className='container mx-5'>
+    <div className='mx-5'>
       {/* Popup Modal untuk ganti bahasa */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-700 bg-opacity-50 flex justify-center items-center z-50">
