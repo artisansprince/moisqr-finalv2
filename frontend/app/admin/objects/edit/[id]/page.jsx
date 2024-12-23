@@ -114,38 +114,36 @@ const EditObjectPage = () => {
 //   };
 
 
-const handleTextAreaInput = (lang) => {
-    // Jangan update state langsung; hanya simpan posisi kursor
+const handleTextAreaChange = (lang) => {
     const ref = descriptionRefs[lang];
     if (ref.current) {
-    saveCursorPosition(ref.current);
-    }
-};
-
-const handleTextAreaBlur = (lang) => {
-    // Update state saat kehilangan fokus
-    const ref = descriptionRefs[lang];
-    if (ref.current) {
-    setFormData((prev) => ({
+      const updatedContent = ref.current.innerHTML;
+      setFormData((prev) => ({
         ...prev,
-        [`description_${lang}`]: ref.current.innerHTML,
-    }));
+        [`description_${lang}`]: updatedContent,
+      }));
     }
-};
+  };
 
-const saveCursorPosition = (element) => {
+  const handleTextAreaInput = (lang) => {
+    const ref = descriptionRefs[lang];
+    if (ref.current) {
+      saveCursorPosition(ref.current);
+    }
+  };
+
+  const saveCursorPosition = (element) => {
     const selection = window.getSelection();
     if (!selection.rangeCount) return;
     const range = selection.getRangeAt(0);
     const tempRange = document.createRange();
-
     tempRange.setStart(element, 0);
     tempRange.setEnd(range.startContainer, range.startOffset);
 
     element.dataset.cursorPosition = tempRange.toString().length; // Save position
-};
+  };
 
-const restoreCursorPosition = (element) => {
+  const restoreCursorPosition = (element) => {
     const cursorPosition = parseInt(element.dataset.cursorPosition, 10);
     if (isNaN(cursorPosition)) return;
 
@@ -155,39 +153,84 @@ const restoreCursorPosition = (element) => {
     let charCount = 0;
     let foundStart = false;
     const walkTextNodes = (node) => {
-    if (node.nodeType === Node.TEXT_NODE) {
+      if (node.nodeType === Node.TEXT_NODE) {
         const nextCharCount = charCount + node.length;
         if (!foundStart && cursorPosition >= charCount && cursorPosition <= nextCharCount) {
-        range.setStart(node, cursorPosition - charCount);
-        range.collapse(true);
-        foundStart = true;
+          range.setStart(node, cursorPosition - charCount);
+          range.collapse(true);
+          foundStart = true;
         }
         charCount = nextCharCount;
-    } else {
+      } else {
         for (let child of node.childNodes) {
-        walkTextNodes(child);
-        if (foundStart) break;
+          walkTextNodes(child);
+          if (foundStart) break;
         }
-    }
+      }
     };
 
     walkTextNodes(element);
     if (foundStart) {
-    selection.removeAllRanges();
-    selection.addRange(range);
+      selection.removeAllRanges();
+      selection.addRange(range);
     }
-};
-   
+  };
+
+  const applyStyle = (style) => {
+    const selection = window.getSelection();
+    if (!selection.rangeCount) return;
+  
+    const range = selection.getRangeAt(0);
+    const selectedText = range.toString();
+    
+    // Cek apakah ada teks yang dipilih
+    if (selectedText) {
+      const span = document.createElement('span');
+      
+      // Cek apakah teks yang dipilih sudah ada stylenya
+      const parentElement = range.startContainer.parentNode;
+  
+      if (style === 'bold') {
+        if (parentElement.style.fontWeight === 'bold') {
+          // Jika sudah bold, hilangkan bold dari teks yang dipilih
+          document.execCommand('removeFormat', false, null);
+        } else {
+          // Terapkan bold jika belum ada
+          document.execCommand('bold', false, null);
+        }
+      } else if (style === 'italic') {
+        if (parentElement.style.fontStyle === 'italic') {
+          // Jika sudah italic, hilangkan italic dari teks yang dipilih
+          document.execCommand('removeFormat', false, null);
+        } else {
+          // Terapkan italic jika belum ada
+          document.execCommand('italic', false, null);
+        }
+      }
+    }
+  };
+  
 
   const handleBold = (lang) => {
-    document.execCommand('bold');
+    applyStyle('bold');
     handleTextAreaChange(lang);
   };
 
   const handleItalic = (lang) => {
-    document.execCommand('italic');
+    applyStyle('italic');
     handleTextAreaChange(lang);
   };
+
+
+//   const handleBold = (lang) => {
+//     document.execCommand('bold');
+//     handleTextAreaBlur(lang);
+//   };
+
+//   const handleItalic = (lang) => {
+//     document.execCommand('italic');
+//     handleTextAreaBlur(lang);
+//   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -354,9 +397,8 @@ const restoreCursorPosition = (element) => {
                     contentEditable
                     suppressContentEditableWarning
                     onInput={() => handleTextAreaInput(lang)}
-                    onBlur={() => handleTextAreaBlur(lang)}
                     dangerouslySetInnerHTML={{
-                      __html: formData[`description_${lang}`] || '',
+                    __html: formData[`description_${lang}`] || '',
                     }}
                     className="mt-2 p-2 w-full border rounded min-h-[100px]"
                 ></div>
