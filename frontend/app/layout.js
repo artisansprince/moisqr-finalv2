@@ -3,8 +3,8 @@ import './globals.css'; // Pastikan ini ada untuk mengimpor Tailwind
 import Script from 'next/script';
 
 export const metadata = {
-  title: "Admin Dashboard",
-  description: "Halaman login dan dashboard untuk admin",
+  title: "Royal Ambarrukmo Object QR",
+  description: "An Easy Way to Access Royal Ambarrukmo Object Detail.",
 };
 
 export default function RootLayout({ children }) {

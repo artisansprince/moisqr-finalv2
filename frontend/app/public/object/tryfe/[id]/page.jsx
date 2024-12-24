@@ -1,10 +1,11 @@
+// frontend/app/public/object/tryfe/[id]/page.jsx
 'use client';
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
 import jsPDF from 'jspdf';
-import img from 'next/image';
+import Image from 'next/image';
 
 export default function DetailObjectPageTry() {
   const [object, setObject] = useState(null);
@@ -139,9 +140,17 @@ export default function DetailObjectPageTry() {
     <div className="bg-[#F7EFE8]">
     <div className="bg-[#F7EFE8] mx-auto">
       {/* Navbar */}
-      <div className="flex justify-between items-center px-5 py-4 border-b bg-white">
+      <div className="flex justify-between items-center top-0 sticky shadow px-5 py-4 border-b bg-white">
       {/* Logo di kiri */}
-      <div className="text-2xl font-bold">Logo</div>
+      <div className="text-2xl font-bold">
+        <Image
+          src="/assets/img/ambrlogo.png"
+          alt="Facebook"
+          className="h-12 object-contain"
+          width={100} // tambahkan properti width
+          height={80} // tambahkan properti height
+        />
+      </div>
 
       {/* Kontainer tombol di kanan, menggunakan flex untuk tombol berdekatan */}
       <div className="flex items-center space-x-4">
@@ -237,24 +246,30 @@ export default function DetailObjectPageTry() {
 
     <div className="flex justify-center space-x-6 mt-4 mb-4">
       <a href="#" aria-label="Facebook">
-        <img
-          src="/assets/img/Facebook.png"
-          alt="Facebook"
-          className="h-8 w-8 hover:opacity-80"
-        />
+      <Image
+        src="/assets/img/Facebook.png"
+        alt="Facebook"
+        className="h-8 w-8 hover:opacity-80"
+        width={32} // tambahkan properti width
+        height={32} // tambahkan properti height
+      />
       </a>
       <a href="#" aria-label="Instagram">
-        <img
+        <Image
           src="/assets/img/Instagram.png"
           alt="Instagram"
           className="h-8 w-8 hover:opacity-80"
+          width={32} // tambahkan properti width
+          height={32} // tambahkan properti height
         />
       </a>
       <a href="#" aria-label="You Tube">
-        <img
+        <Image
           src="/assets/img/Youtube.png"
           alt="You Tube"
           className="h-8 w-8 hover:opacity-80"
+          width={32} // tambahkan properti width
+          height={32} // tambahkan properti height
         />
       </a>
     </div>
