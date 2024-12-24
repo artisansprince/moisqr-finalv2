@@ -197,7 +197,7 @@ export default function DetailObjectPageTry() {
         </div>
       )}
 
-      <div id='export-content' className='max-w-[90%]'>
+      <div id='export-content' className='w-full'>
         {/* Gambar objek berjajar horizontal */}
         {imageUrls.length > 0 ? (
           <div id="image-gallery" className="flex overflow-x-auto space-x-4 py-4 mb-4">
