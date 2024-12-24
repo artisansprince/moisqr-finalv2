@@ -220,36 +220,38 @@ export default function DetailObjectPageTry() {
 
       <div id='export-content' className='w-full'>
         {/* Gambar objek berjajar horizontal */}
-        {imageUrls.length > 0 ? (
-            <div id="image-gallery" className="flex overflow-x-hidden space-x-4 py-[0px] mb-4">
-              {imageUrls.map((imageUrl, index) => (
-                <img
-                  key={index}
-                  src={`${baseURL}${imageUrl}`}
-                  alt={`Image ${index + 1}`}
-                  className="h-48"
-                  crossOrigin="anonymous"
-                />
-              ))}
-            </div>
-          ) : (
-            <p className="text-gray-500">No images available.</p>
-          )}
+        <div>
+          {imageUrls.length > 0 ? (
+              <div id="image-gallery" className="flex overflow-x-hidden space-x-4 py-[0px] mb-4">
+                {imageUrls.map((imageUrl, index) => (
+                  <img
+                    key={index}
+                    src={`${baseURL}${imageUrl}`}
+                    alt={`Image ${index + 1}`}
+                    className="max-w-100 max-h-80"
+                    crossOrigin="anonymous"
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500">No images available.</p>
+            )}
 
-          {/* Tombol navigasi */}
-          <div className="absolute top-[165px] left-[10px] right-[10px] flex justify-between items-center z-10 py-2">
-            <button
-              onClick={scrollLeft}
-              className="material-icons text-white text-4xl"
-            >
-              arrow_circle_left
-            </button>
-            <button
-              onClick={scrollRight}
-              className="material-icons text-white text-4xl"
-            >
-              arrow_circle_right
-            </button>
+            {/* Tombol navigasi */}
+            <div className="absolute sm:top-[200px] top-[140px] left-[10px] right-[10px] flex justify-between items-center z-10 py-2">
+              <button
+                onClick={scrollLeft}
+                className="material-icons text-white text-4xl"
+              >
+                arrow_circle_left
+              </button>
+              <button
+                onClick={scrollRight}
+                className="material-icons text-white text-4xl"
+              >
+                arrow_circle_right
+              </button>
+            </div>
           </div>
 
         {/* Detail Objek */}
