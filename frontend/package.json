@@ -18,6 +18,7 @@
     "puppeteer": "^23.10.3",
     "react": "^18",
     "react-dom": "^18",
+    "tailwind-scrollbar-hide": "^2.0.0",
     "translate": "^3.0.1"
   },
   "devDependencies": {
