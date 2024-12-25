@@ -379,6 +379,8 @@ const handleTextAreaChange = (lang) => {
               </div>
             ))}
           </div>
+          <p className="italic text-gray-500">*If there are no changes to the images, leave this field blank, if there are changes, upload all the required images.</p>
+          <p className="mb-10 italic text-gray-500">*Changes to the images will delete all old images, so re-upload all the required images.</p>
   
           {/* Dropdown Kategori */}
           <div className="mb-4">
@@ -414,7 +416,7 @@ const handleTextAreaChange = (lang) => {
               <hr />
               <hr />
 
-              <h3 className="text-lg font-medium text-gray-700 mt-4">{lang.charAt(0).toUpperCase() + lang.slice(1)}</h3>
+              <h1 className="text-xl font-bold text-gray-700 mt-4">{lang.charAt(0).toUpperCase() + lang.slice(1)}</h1>
   
               {/* Input untuk nama */}
               <div className="mb-4">
@@ -477,7 +479,7 @@ const handleTextAreaChange = (lang) => {
                   }}
                   className="mt-2 mb-3 p-2 w-full border rounded min-h-[100px]"
                 ></div>
-                <p className='mb-3 font-italic text-gray-500'>*If there are any changes to the text please always click the save button below before saving the total update.</p>
+                <p className='mb-3 italic text-gray-500'>*If there are any changes to the text please always click the save button below before saving the total update.</p>
                 <a
                     onClick={() => handleTextAreaChange(lang)}
                     className="mt-2 p-2 bg-gray-200 cursor-pointer text-blue-500 rounded"
