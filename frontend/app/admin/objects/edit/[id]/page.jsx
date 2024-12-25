@@ -347,9 +347,36 @@ const handleTextAreaChange = (lang) => {
             </button>
           </div>
         </div>
+
+        {/* Tampilkan gambar lama */}
+        <div className="mb-6">
+          <h2 className="text-lg font-semibold text-gray-700 mb-2">Existing Images</h2>
+          <div className="grid grid-cols-3 gap-4"> {/* Menggunakan grid dengan 3 kolom dan jarak antar gambar */}
+            {formData.image_url?.length > 0 ? (
+              JSON.parse(formData.image_url).map((image, index) => (
+                <div
+                  key={index}
+                  className="w-full h-auto border border-gray-300 rounded-md overflow-hidden"
+                >
+                  <img
+                    src={`${baseURL}${image}`} // Pastikan baseURL sudah didefinisikan
+                    alt={`Old image ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-500 italic">No images available.</p>
+            )}
+          </div>
+        </div>
+
+
+
   
         <form id="modalForm" onSubmit={handleSubmit}>
           {/* Input Gambar */}
+          <h2 className="text-lg font-medium text-gray-700 mb-2">Input new image</h2>
           <div className="flex mb-6 space-x-2">
             {[...Array(5)].map((_, index) => (
               <div
