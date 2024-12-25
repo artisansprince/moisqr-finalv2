@@ -152,14 +152,17 @@ export default function DetailObjectPageTry() {
 
           // Sembunyikan elemen setelah export selesai
           element.style.display = 'none';
-          
+
         },
         x: 20, // Margin kiri
         y: 20, // Margin atas
         html2canvas: {
           scale: 2 / window.devicePixelRatio, // Sesuaikan dengan rasio pixel
           useCORS: true,
+          windowPadding: 20,
         },
+        autoPaging: true, // Atur agar teks otomatis berpindah halaman
+        margin: [20, 20, 40, 20], // [atas, kanan, bawah, kiri]
       });
     });
   };
@@ -279,7 +282,7 @@ export default function DetailObjectPageTry() {
 
 
     {/* export pdf */}
-    <div id='export-content' className='hidden'>
+    <div id='export-content' className="hidden break-inside-avoid break-after-page">
         
         {/* Gambar objek berjajar horizontal */}
         <div>
