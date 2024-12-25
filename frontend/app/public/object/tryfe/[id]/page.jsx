@@ -123,6 +123,9 @@ export default function DetailObjectPageTry() {
   const exportToPDF = () => {
     const element = document.getElementById('export-content'); // Elemen HTML yang mau di-export
     
+    // Tampilkan elemen sebelum export
+    element.style.display = 'block';
+
     // Tunggu semua gambar selesai dimuat
     const images = element.querySelectorAll('img');
     const imagePromises = Array.from(images).map(
@@ -146,6 +149,10 @@ export default function DetailObjectPageTry() {
       pdf.html(element, {
         callback: (doc) => {
           doc.save(getTranslatedField('name'));
+
+          // Sembunyikan elemen setelah export selesai
+          element.style.display = 'none';
+          
         },
         x: 20, // Margin kiri
         y: 20, // Margin atas
@@ -218,7 +225,7 @@ export default function DetailObjectPageTry() {
         </div>
       )}
 
-      <div id='export-content' className='w-full'>
+      <div className='w-full'>
         {/* Gambar objek berjajar horizontal */}
         <div>
           {imageUrls.length > 0 ? (
@@ -268,9 +275,48 @@ export default function DetailObjectPageTry() {
         </div>
       </div>
       </div>
-
-      
     </div>
+
+
+    {/* export pdf */}
+    <div id='export-content' className='hidden'>
+        
+        {/* Gambar objek berjajar horizontal */}
+        <div>
+          {imageUrls.length > 0 ? (
+              <div id="image-gallery" className="flex flex-wrap gap-3 mx-5 mb-4">
+                {imageUrls.map((imageUrl, index) => (
+                  <img
+                    key={index}
+                    src={`${baseURL}${imageUrl}`}
+                    alt={`Image ${index + 1}`}
+                    className="max-w-50 max-h-80"
+                    crossOrigin="anonymous"
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500">No images available.</p>
+            )}
+
+          </div>
+
+        {/* Detail Objek */}
+        <div className="object-detail-wrapper mb-4 mx-5">
+          <h1 className="text-2xl font-poppins mb-4">{getTranslatedField('name')}</h1>
+          {/* <p className="text-base font-poppins">Category: {object.category_name}</p> */}
+
+          <div
+            id='object-description'
+            className="desc-wrapper text-base mb-4 font-poppins font-light"
+            dangerouslySetInnerHTML={{ __html: getTranslatedDescription() }}
+          />
+        </div>
+
+    </div>
+
+
+    {/* footer */}
 
     <footer className="bg-[#9F9B6E] text-white p-4">
     <p className="text-center font-normal mb-3">ROYAL AMBARRUKMO YOGYAKARTA</p>
