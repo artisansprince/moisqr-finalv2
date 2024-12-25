@@ -111,10 +111,8 @@ export default function DetailObjectPageTry() {
   const languageMap = {
     en: 'English',
     id: 'Bahasa Indonesia',
-    fr: 'Français',
     es: 'Español',
     nl: 'Nederlands',
-    de: 'Deutsch',
     ja: '日本語',
     ko: '한국어',
     zh: '中文 (简体)', // Simplified Chinese
