@@ -72,6 +72,7 @@ async function migrateUp() {
                 image_url JSON,
                 qr_image_url VARCHAR(255) NULL,
                 category_id INT,
+                view_count INT DEFAULT 0,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 

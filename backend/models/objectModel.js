@@ -113,6 +113,13 @@ exports.findById = async (id) => {
 
 
 
+// Update views count
+exports.incrementViews = async (id) => {
+    await db.query(
+        'UPDATE objects SET view_count = view_count + 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+        [id]
+    );
+};
 
 
 

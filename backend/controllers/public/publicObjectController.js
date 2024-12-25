@@ -13,6 +13,9 @@ exports.getAllPublicObjects = async (req, res) => {
 exports.getPublicObjectById = async (req, res) => {
     try {
         const { id } = req.params;
+        // Increment views count
+        await objectModel.incrementViews(id);
+        
         const object = await objectModel.findById(id);
 
         if (object) {
