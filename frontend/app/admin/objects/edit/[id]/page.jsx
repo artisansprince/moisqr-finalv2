@@ -401,10 +401,19 @@ const handleTextAreaChange = (lang) => {
               ))}
             </select>
           </div>
+
+          <hr />
   
           {/* Input untuk setiap bahasa */}
           {['english', 'indonesian', 'chinese_simp', 'japanese', 'korean', 'russian', 'spanish', 'dutch'].map((lang) => (
             <div key={lang}>
+
+              <hr />
+              <hr />
+              <hr />
+              <hr />
+              <hr />
+
               <h3 className="text-lg font-medium text-gray-700 mt-4">{lang.charAt(0).toUpperCase() + lang.slice(1)}</h3>
   
               {/* Input untuk nama */}
@@ -438,7 +447,7 @@ const handleTextAreaChange = (lang) => {
               </div>
   
               {/* Description */}
-              <div className="mb-4">
+              <div className="mb-[120px]">
                 <label htmlFor={`description_${lang}`} className="block text-sm font-medium text-gray-700">
                   Description
                 </label>
