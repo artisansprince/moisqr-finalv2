@@ -281,7 +281,7 @@ const CreateObjectPage = () => {
           </div>
 
           {/* Dropdown Kategori */}
-          <div className="mb-4">
+          <div className="mb-10">
             <label htmlFor="category_id" className="block text-sm font-medium text-gray-700">
               Category
             </label>
@@ -302,12 +302,16 @@ const CreateObjectPage = () => {
             </select>
           </div>
 
-          
+          <hr />
+          <hr />
+          <hr />
+          <hr />
+          <hr />
 
           {/* Input untuk setiap bahasa */}
           {['english', 'indonesian', 'chinese_simp', 'japanese', 'korean', 'russian', 'spanish', 'dutch'].map((lang) => (
             <div key={lang}>
-              <h3 className="text-lg font-medium text-gray-700 mt-4">{lang.charAt(0).toUpperCase() + lang.slice(1)}</h3>
+              <h3 className="text-xl font-bold text-gray-700 mt-4">{lang.charAt(0).toUpperCase() + lang.slice(1)}</h3>
 
                 {/* Input untuk nama */}
                 <div className="mb-4">
@@ -340,7 +344,7 @@ const CreateObjectPage = () => {
                 </div>
 
               {/* Description */}
-              <div className="mb-4">
+              <div className="mb-20">
                 <label htmlFor={`description_${lang}`} className="block text-sm font-medium text-gray-700">
                   Description
                 </label>
@@ -367,6 +371,11 @@ const CreateObjectPage = () => {
                   className="mt-2 p-2 w-full border rounded min-h-[100px]"
                 />
               </div>
+              <hr />
+              <hr />
+              <hr />
+              <hr />
+              <hr />
             </div>
           ))}
         </form>
